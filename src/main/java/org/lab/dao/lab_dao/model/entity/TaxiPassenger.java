@@ -1,57 +1,81 @@
 package org.lab.dao.lab_dao.model.entity;
 
 public class TaxiPassenger {
-    private int id;
-    private String dateOfRegistration;
-    private int taxiTripHistoryId;
-    private Float rating;
+  private int id;
+  private String firstName;
+  private String secondName;
+  private String gender;
+  private String dateOfBirth;
+  private int passengerTaxiInfoId;
 
 
-    public int getId() {
-        return id;
-    }
+  public TaxiPassenger(int id, String firstName, String secondName, String gender, String dateOfBirth, int passengerTaxiInfoId) {
+    this.id = id;
+    this.firstName = firstName;
+    this.secondName = secondName;
+    this.gender = gender;
+    this.dateOfBirth = dateOfBirth;
+    this.passengerTaxiInfoId = passengerTaxiInfoId;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  }
 
-    public String getDateOfRegistration() {
-        return dateOfRegistration;
-    }
+  public TaxiPassenger(String firstName, String secondName, String gender, String dateOfBirth, int passengerTaxiInfoId) {
+    this(-1, firstName, secondName, gender, dateOfBirth, passengerTaxiInfoId);
+  }
 
-    public void setDateOfRegistration(String dateOfRegistration) {
-        this.dateOfRegistration = dateOfRegistration;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public int getTaxiTripHistoryId() {
-        return taxiTripHistoryId;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setTaxiTripHistoryId(int taxiTripHistoryId) {
-        this.taxiTripHistoryId = taxiTripHistoryId;
-    }
+  public String getFirstName() {
+    return firstName;
+  }
 
-    public Float getRating() {
-        return rating;
-    }
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
 
-    public void setRating(Float rating) {
-        this.rating = rating;
-    }
+  public String getSecondName() {
+    return secondName;
+  }
 
-    public TaxiPassenger(int id, String dateOfRegistration, int taxiTripHistoryId, Float rating) {
-        this.id = id;
-        this.dateOfRegistration = dateOfRegistration;
-        this.taxiTripHistoryId = taxiTripHistoryId;
-        this.rating = rating;
-    }
+  public void setSecondName(String secondName) {
+    this.secondName = secondName;
+  }
 
-    public TaxiPassenger(String dateOfRegistration, int taxiTripHistoryId, Float rating) {
-        this(-1, dateOfRegistration, taxiTripHistoryId, rating);
-    }
+  public String getGender() {
+    return gender;
+  }
 
-    @Override
-    public String toString() {
-        return "\n\nGenre: id: " + id + ", dateOfRegistration: " + dateOfRegistration + ", taxiTripHistoryId: " + taxiTripHistoryId + ", rating: " + rating + "";
-    }
+  public void setGender(String gender) {
+    this.gender = gender;
+  }
+
+  public String getDateOfBirth() {
+    return dateOfBirth;
+  }
+
+  public void setDateOfBirth(String dateOfBirth) {
+    this.dateOfBirth = dateOfBirth;
+  }
+
+
+  @Override
+  public String toString() {
+    return "\n\nUser: id: " + id + ", firstName: " + firstName + ", secondName: " + secondName + ", gender: "
+        + gender + ", dateOfBirth: " + dateOfBirth + ", passengerTaxiInfoId: " + passengerTaxiInfoId
+        + "]";
+  }
+
+  public int getPassengerTaxiInfoId() {
+    return passengerTaxiInfoId;
+  }
+
+  public void setPassengerTaxiInfoId(int passengerTaxiInfoId) {
+    this.passengerTaxiInfoId = passengerTaxiInfoId;
+  }
 }
