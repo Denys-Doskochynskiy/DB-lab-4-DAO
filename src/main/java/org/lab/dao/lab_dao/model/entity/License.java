@@ -1,8 +1,19 @@
 package org.lab.dao.lab_dao.model.entity;
 
+
+import javax.persistence.*;
+
+@Table(name = "license")
+@Entity
 public class License {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private int id;
+  @Column(name = "date_of_issue")
+
   private String dateOfIssue;
+  @Column(name = "place_of_issue")
   private String placeOfIssue;
 
   public License(int id, String dateOfIssue, String placeOfIssue) {
@@ -12,12 +23,17 @@ public class License {
   }
 
   public License(String dateOfIssue, String placeOfIssue) {
-    this(-1, dateOfIssue, placeOfIssue);
+    this.dateOfIssue = dateOfIssue;
+    this.placeOfIssue = placeOfIssue;
+  }
+
+  public License() {
+
   }
 
   @Override
   public String toString() {
-    return "\n\nGenre: id: " + id + ", dateOfIssue: " + dateOfIssue + ", placeOfIssue: " + placeOfIssue + "";
+    return "\n\nLicense: id: " + id + ", dateOfIssue: " + dateOfIssue + ", placeOfIssue: " + placeOfIssue + "";
   }
 
   public int getId() {

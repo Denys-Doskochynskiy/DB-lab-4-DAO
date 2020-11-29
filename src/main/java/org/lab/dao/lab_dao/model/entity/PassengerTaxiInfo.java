@@ -1,9 +1,19 @@
 package org.lab.dao.lab_dao.model.entity;
 
+import javax.persistence.*;
+
+@Table(name = "passenger_taxi_info")
+@Entity
 public class PassengerTaxiInfo {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private int id;
+  @Column(name = "date_of_registration")
   private String dateOfRegistration;
+  @Column(name = "taxi_trip_history_id")
   private int taxiTripHistoryId;
+  @Column(name = "rating")
   private Float rating;
 
 
@@ -15,7 +25,13 @@ public class PassengerTaxiInfo {
   }
 
   public PassengerTaxiInfo(String dateOfRegistration, int taxiTripHistoryId, Float rating) {
-    this(-1, dateOfRegistration, taxiTripHistoryId, rating);
+    this.dateOfRegistration = dateOfRegistration;
+    this.taxiTripHistoryId = taxiTripHistoryId;
+    this.rating = rating;
+  }
+
+  public PassengerTaxiInfo() {
+
   }
 
   public int getId() {
@@ -52,6 +68,6 @@ public class PassengerTaxiInfo {
 
   @Override
   public String toString() {
-    return "\n\nPassenger: id: " + id + ", dateOfRegistration: " + dateOfRegistration + ", taxiTripHistoryId: " + taxiTripHistoryId + ", rating: " + rating + "";
+    return "\n\nPassengerTaxiInfo: id: " + id + ", dateOfRegistration: " + dateOfRegistration + ", taxiTripHistoryId: " + taxiTripHistoryId + ", rating: " + rating + "";
   }
 }

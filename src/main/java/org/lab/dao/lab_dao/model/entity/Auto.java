@@ -1,10 +1,23 @@
 package org.lab.dao.lab_dao.model.entity;
 
+
+import javax.persistence.*;
+
+
+@Table(name = "auto")
+@Entity
 public class Auto {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private int id;
+  @Column(name = "mark")
   private String mark;
+  @Column(name = "auto_number")
   private String autoNumber;
+  @Column(name = "auto_type")
   private String autoType;
+  @Column(name = "state")
   private String state;
 
   public Auto(int id, String mark, String autoNumber, String autoType, String state) {
@@ -16,7 +29,14 @@ public class Auto {
   }
 
   public Auto(String mark, String autoNumber, String autoType, String state) {
-    this(-1, mark, autoNumber, autoType, state);
+    this.mark = mark;
+    this.autoNumber = autoNumber;
+    this.autoType = autoType;
+    this.state = state;
+  }
+
+  public Auto() {
+
   }
 
   @Override

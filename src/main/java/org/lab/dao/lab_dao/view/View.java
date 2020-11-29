@@ -156,7 +156,7 @@ public class View {
     System.out.println(driverTaxiInfoController.findOne(id) + "\n");
   }
 
-  private DriverTaxiInfo getDriverTaxiInfoInputs() {
+  private DriverTaxiInfo getDriverTaxiInfoInputs() throws SQLException {
 
 
     System.out.println("\nEnter driving experience: ");
@@ -164,13 +164,20 @@ public class View {
     System.out.println("Enter rating driver: ");
     Float ratingDriver = Float.valueOf(SCANNER.next());
     System.out.println("Enter licenseId: ");
-    int licenseId = Integer.parseInt(SCANNER.next());
+    Integer licenseId = SCANNER.nextInt();
+    License license = licenseController.findOne(licenseId);
+
+
     System.out.println("Enter autoId: ");
-    int autoId = Integer.parseInt(SCANNER.next());
+    Integer autoId = SCANNER.nextInt();
+    Auto auto = autoController.findOne(autoId);
+
+
     System.out.println("Enter is booked: ");
     Boolean isBooked = Boolean.valueOf(SCANNER.next());
 
-    return new DriverTaxiInfo(drivingExperience, ratingDriver, licenseId, autoId, isBooked);
+
+    return new DriverTaxiInfo(drivingExperience, ratingDriver, license, auto, isBooked);
   }
 
   private void createDriverTaxiInfo() throws SQLException {
@@ -216,7 +223,7 @@ public class View {
     System.out.println(taxiDriverController.findOne(id) + "\n");
   }
 
-  private TaxiDriver getDriverInputs() {
+  private TaxiDriver getDriverInputs() throws SQLException {
 
     System.out.println("\nEnter name: ");
     String firstName = SCANNER.next();
@@ -227,8 +234,10 @@ public class View {
     System.out.println("Enter date of birth: ");
     String dateOfBirth = SCANNER.next();
     System.out.println("Enter driverTaxiInfoId: ");
-    int driverTaxiInfoId = Integer.parseInt(SCANNER.next());
-    return new TaxiDriver(firstName, secondName, gender, dateOfBirth, driverTaxiInfoId);
+
+    Integer driverTaxiInfoId = SCANNER.nextInt();
+    DriverTaxiInfo driverTaxiInfo = driverTaxiInfoController.findOne(driverTaxiInfoId);
+    return new TaxiDriver(firstName, secondName, gender, dateOfBirth, driverTaxiInfo);
   }
 
   private void createDriver() throws SQLException {
@@ -375,7 +384,7 @@ public class View {
     System.out.println(taxiPassengerController.findOne(id) + "\n");
   }
 
-  private TaxiPassenger getPassengerInputs() {
+  private TaxiPassenger getPassengerInputs() throws SQLException {
 
     System.out.println("\nEnter name: ");
     String firstName = SCANNER.next();
@@ -386,8 +395,10 @@ public class View {
     System.out.println("Enter date of birth: ");
     String dateOfBirth = SCANNER.next();
     System.out.println("Enter passengerTaxiInfoId: ");
-    int passengerTaxiInfoId = Integer.parseInt(SCANNER.next());
-    return new TaxiPassenger(firstName, secondName, gender, dateOfBirth, passengerTaxiInfoId);
+
+    Integer passengerTaxiInfoId = SCANNER.nextInt();
+    PassengerTaxiInfo passengerTaxiInfo = passengerTaxiInfoController.findOne(passengerTaxiInfoId);
+    return new TaxiPassenger(firstName, secondName, gender, dateOfBirth, passengerTaxiInfo);
 
   }
 

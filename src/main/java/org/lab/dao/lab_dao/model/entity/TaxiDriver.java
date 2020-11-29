@@ -1,26 +1,48 @@
 package org.lab.dao.lab_dao.model.entity;
 
+import javax.persistence.*;
+
+@Table(name = "driver")
+@Entity
 public class TaxiDriver {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private int id;
+  @Column(name = "first_name")
   private String firstName;
+  @Column(name = "second_name")
   private String secondName;
+  @Column(name = "gender")
   private String gender;
+  @Column(name = "date_of_birth")
   private String dateOfBirth;
-  private int driverTaxiInfoId;
+  @OneToOne
+  @JoinColumn(name = "driver_taxi_info_id", referencedColumnName = "id", nullable = false)
+  private DriverTaxiInfo driverTaxiInfo;
 
 
-  public TaxiDriver(int id, String firstName, String secondName, String gender, String dateOfBirth, int driverTaxiInfoId) {
+  public TaxiDriver(int id, String firstName, String secondName, String gender, String dateOfBirth, DriverTaxiInfo driverTaxiInfo) {
     this.id = id;
     this.firstName = firstName;
     this.secondName = secondName;
     this.gender = gender;
     this.dateOfBirth = dateOfBirth;
-    this.driverTaxiInfoId = driverTaxiInfoId;
+    this.driverTaxiInfo = driverTaxiInfo;
 
   }
 
-  public TaxiDriver(String firstName, String secondName, String gender, String dateOfBirth, int driverTaxiInfoId) {
-    this(-1, firstName, secondName, gender, dateOfBirth, driverTaxiInfoId);
+  public TaxiDriver(String firstName, String secondName, String gender, String dateOfBirth, DriverTaxiInfo driverTaxiInfo) {
+    this.firstName = firstName;
+    this.secondName = secondName;
+    this.gender = gender;
+    this.dateOfBirth = dateOfBirth;
+    this.driverTaxiInfo = driverTaxiInfo;
+
+  }
+
+  public TaxiDriver() {
+
   }
 
   public int getId() {
@@ -66,16 +88,17 @@ public class TaxiDriver {
 
   @Override
   public String toString() {
-    return "\n\nUser: id: " + id + ", firstName: " + firstName + ", secondName: " + secondName + ", gender: "
-        + gender + ", dateOfBirth: " + dateOfBirth + ", driverTaxiInfoId: " + driverTaxiInfoId
-        + "]";
+    return "\n______________________________________________________________________________________________________________________\nDriver: id: " + id + ", firstName: " + firstName + ", secondName: " + secondName + ", gender: "
+        + gender + ", dateOfBirth: " + dateOfBirth + ", driverTaxiInfoId: " + driverTaxiInfo
+        + "]\n______________________________________________________________________________________________________________________\n";
   }
 
-  public int getDriverTaxiInfoId() {
-    return driverTaxiInfoId;
+
+  public DriverTaxiInfo getDriverTaxiInfo() {
+    return driverTaxiInfo;
   }
 
-  public void setDriverTaxiInfoId(int driverTaxiInfoId) {
-    this.driverTaxiInfoId = driverTaxiInfoId;
+  public void setDriverTaxiInfo(DriverTaxiInfo driverTaxiInfo) {
+    this.driverTaxiInfo = driverTaxiInfo;
   }
 }

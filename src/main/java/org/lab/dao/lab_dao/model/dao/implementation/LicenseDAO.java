@@ -1,61 +1,42 @@
 package org.lab.dao.lab_dao.model.dao.implementation;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.lab.dao.lab_dao.model.dao.GenericDAO;
 import org.lab.dao.lab_dao.model.entity.License;
-import org.lab.dao.lab_dao.util.DatabaseConnector;
+import org.lab.dao.lab_dao.util.HibernateUtil;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"unchecked"})
 public class LicenseDAO implements GenericDAO<License> {
 
-  private static final String GET_ALL = "SELECT * FROM four_lab_db.license";
-  private static final String GET_ONE = "SELECT * FROM four_lab_db.license WHERE id=?";
-  private static final String CREATE = "INSERT four_lab_db.license "
-      + "(date_of_issue,  place_of_issue) VALUES (?, ?)";
-  private static final String UPDATE = "UPDATE four_lab_db.license"
-      + " SET date_of_issue=?, place_of_issue=? WHERE id=?";
-  private static final String DELETE = "DELETE FROM four_lab_db.license WHERE id=?";
+  protected final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
   @Override
   public List<License> findAll() {
-    List<License> licenses = new ArrayList<>();
-    try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(GET_ALL)) {
-      System.out.println(statement);
-      ResultSet resultSet = statement.executeQuery();
-      while (resultSet.next()) {
-        License license = new License(
-            resultSet.getInt("id"),
-            resultSet.getString("date_of_issue"),
-            resultSet.getString("place_of_issue")
-        );
-        licenses.add(license);
-      }
+    List<License> licenseList = new ArrayList<>();
+
+    try (Session session = sessionFactory.getCurrentSession()) {
+      session.beginTransaction();
+      licenseList = session.createQuery("from License").getResultList();
+      session.getTransaction().commit();
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return licenses;
+    return licenseList;
   }
 
   @Override
-  public License findOne(Integer id) {
+  public License findOne(Integer id) throws SQLException {
     License license = null;
-    try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(GET_ONE)) {
 
-      statement.setInt(1, id);
-      System.out.println(statement);
-      ResultSet resultSet = statement.executeQuery();
-
-      while (resultSet.next()) {
-        license = new License(
-            resultSet.getInt("id"),
-            resultSet.getString("date_of_issue"),
-            resultSet.getString("place_of_issue")
-        );
-      }
+    try (Session session = sessionFactory.getCurrentSession()) {
+      session.beginTransaction();
+      license = session.get(License.class, id);
+      session.getTransaction().commit();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -64,42 +45,35 @@ public class LicenseDAO implements GenericDAO<License> {
 
   @Override
   public void create(License license) throws SQLException {
-
-    try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(CREATE)) {
-      statement.setString(1, license.getDateOfIssue());
-      statement.setString(2, license.getPlaceOfIssue());
-
-      statement.executeUpdate();
-      System.out.println(statement);
+    try (Session session = sessionFactory.getCurrentSession()) {
+      session.beginTransaction();
+      session.save(license);
+      session.getTransaction().commit();
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-
   }
 
   @Override
   public void update(Integer id, License license) throws SQLException {
-    try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(UPDATE)) {
-
-
-      statement.setString(1, license.getDateOfIssue());
-      statement.setString(2, license.getPlaceOfIssue());
-      statement.setInt(3, license.getId());
-
-      statement.executeUpdate();
-      System.out.println(statement);
+    try (Session session = sessionFactory.getCurrentSession()) {
+      session.beginTransaction();
+      session.update(license);
+      session.getTransaction().commit();
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
   @Override
-  public void delete(Integer id) throws SQLException {
-    try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(DELETE)) {
-      statement.setInt(1, id);
-      System.out.println(statement);
-      statement.executeUpdate();
+  public void delete(Integer id) {
+    try (Session session = sessionFactory.getCurrentSession()) {
+      session.beginTransaction();
+      License license = session.get(License.class, id);
+      if (license != null) {
+        session.delete(license);
+      }
+      session.getTransaction().commit();
     } catch (Exception e) {
       e.printStackTrace();
     }

@@ -1,31 +1,58 @@
 package org.lab.dao.lab_dao.model.entity;
 
+import javax.persistence.*;
+
+@Table(name = "driver_taxi_info")
+@Entity
 public class DriverTaxiInfo {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private int id;
+  @Column(name = "driving_experience")
   private Float drivingExperience;
+  @Column(name = "rating_driver")
   private Float ratingDriver;
-  private int licenseId;
-  private int autoId;
+
+
+  @OneToOne
+  @JoinColumn(name = "license_id", referencedColumnName = "id", nullable = false)
+  private License license;
+
+
+  @OneToOne
+  @JoinColumn(name = "auto_id", referencedColumnName = "id", nullable = false)
+  private Auto auto;
+
+  @Column(name = "is_booked")
   private Boolean isBooked;
 
-  public DriverTaxiInfo(int id, Float drivingExperience, Float ratingDriver, int licenseId, int autoId, Boolean isBooked) {
+  public DriverTaxiInfo(int id, Float drivingExperience, Float ratingDriver, License license, Auto auto, Boolean isBooked) {
     this.id = id;
     this.drivingExperience = drivingExperience;
     this.ratingDriver = ratingDriver;
-    this.licenseId = licenseId;
-    this.autoId = autoId;
+    this.license = license;
+    this.auto = auto;
     this.isBooked = isBooked;
   }
 
-  public DriverTaxiInfo(Float drivingExperience, Float ratingDriver, int licenseId, int autoId, Boolean isBooked) {
-    this(-1, drivingExperience, ratingDriver, licenseId, autoId, isBooked);
+  public DriverTaxiInfo(Float drivingExperience, Float ratingDriver, License license, Auto auto, Boolean isBooked) {
+    this.drivingExperience = drivingExperience;
+    this.ratingDriver = ratingDriver;
+    this.license = license;
+    this.auto = auto;
+    this.isBooked = isBooked;
+  }
+
+  public DriverTaxiInfo() {
+
   }
 
   @Override
   public String toString() {
-    return "\n\nUser: id: " + id + ", drivingExperience: " + drivingExperience + ", ratingDriver: " + ratingDriver + ", licenseId: "
-        + licenseId + ", autoId: " + autoId + ", isBooked: " + isBooked
-        + "]";
+    return "\n______________________________________________________________________________________________________________________\nDriverTaxiInfo: id: " + id + ", drivingExperience: " + drivingExperience + ", ratingDriver: " + ratingDriver + ", licenseId: "
+        + license + ", autoId: " + auto + ", isBooked: " + isBooked
+        + "]\n______________________________________________________________________________________________________________________\n";
   }
 
   public int getId() {
@@ -52,21 +79,6 @@ public class DriverTaxiInfo {
     this.ratingDriver = ratingDriver;
   }
 
-  public int getLicenseId() {
-    return licenseId;
-  }
-
-  public void setLicenseId(int licenseId) {
-    this.licenseId = licenseId;
-  }
-
-  public int getAutoId() {
-    return autoId;
-  }
-
-  public void setAutoId(int autoId) {
-    this.autoId = autoId;
-  }
 
   public Boolean getBooked() {
     return isBooked;
@@ -74,6 +86,22 @@ public class DriverTaxiInfo {
 
   public void setBooked(Boolean booked) {
     isBooked = booked;
+  }
+
+  public Auto getAuto() {
+    return auto;
+  }
+
+  public void setAuto(Auto auto) {
+    this.auto = auto;
+  }
+
+  public License getLicense() {
+    return license;
+  }
+
+  public void setLicense(License license) {
+    this.license = license;
   }
 }
 
